@@ -35,152 +35,60 @@ OMO Talk is a macOS menubar app that lets you continue work through the flow:
 
 ---
 
-## 0) Prerequisites
+## 0) Prerequisites (short)
 
-You need all of the following.
+You need the following:
 
 1) macOS 13+
 2) iTerm2 installed
-3) tmux installed
-4) `opencode` installed and available in your PATH, and the oh-my-opencode plugin installed
-5) A Telegram bot token (issued by BotFather)
+3) tmux installed (`tmux -V` works)
+4) opencode + oh-my-opencode installed (`opencode --version` works)
 
 ---
 
 ## 1) Install (DMG)
 
-1) Double-click the provided `OMO Talk.dmg`.
-2) In the window that opens, drag `OMO Talk.app` into `Applications`.
+1) Double-click `OMO Talk.dmg`.
+2) Drag `OMO Talk.app` to `Applications`.
 3) Launch `/Applications/OMO Talk.app`.
 
-### 1-1) How to check the installed version
+Version check:
 
-1) Open Finder → `/Applications`
-2) Select `OMO Talk.app`
-3) Press `Command + I` (Get Info)
-4) Check the "Version" field
+- Finder -> `/Applications` -> `OMO Talk.app` -> `Command + I` -> Version
 
 ---
 
-## 2) Install tmux
+## 2) Quick Start (same as in-app)
 
-### 2-1) If you have Homebrew (recommended)
+1) Install opencode and oh-my-opencode.
+2) Install tmux.
+3) In Telegram, open `@BotFather`.
+4) Create a bot with `/newbot` and copy the token.
+5) In OMO Talk Settings, paste **Bot Token**.
+6) Click **Save**.
+7) Click **Start Bot** in the main panel.
+8) Send any message to your bot.
+9) Put the detected `user_id` into **Allowed User ID**, then save again.
+10) Create a session with **Add Session**, or run `/new <alias> <path>` in Telegram.
 
-```bash
-brew install tmux
-```
+Example:
 
-### 2-2) Verify installation
-
-```bash
-tmux -V
-```
-
----
-
-## 3) Install iTerm2
-
-Choose one:
-
-- Download from the official iTerm2 website and install
-- Using Homebrew:
-
-```bash
-brew install --cask iterm2
-```
+- If your project is `/Users/user/Desktop/ppap` and Base Path is `/Users/user/Desktop`, you can use `/new ppap /ppap`.
 
 ---
 
-## 4) Install / verify opencode
+## 3) Path input rule (`/new` and Add Session)
 
-OMO Talk runs `opencode` inside a tmux session.
-
-1) Verify this works in Terminal:
-
-```bash
-opencode --version
-```
-
-2) If you see `command not found`, install opencode and make sure it is available in your PATH.
+- Full absolute path: `/Users/you/...`
+- Home path: `~/...`
+- Relative path: resolved under Base Path (e.g. `project`)
+- Convenience fallback: if Base Path is `/Users/you/Desktop`, `/new app /app` can be interpreted as `/Users/you/Desktop/app`
 
 ---
 
-### 4-1) oh-my-opencode (OMO) setup (recommended)
+## 4) Use from Telegram
 
-OMO Talk has been **thoroughly tested only in the oh-my-opencode environment**.
-If your opencode setup is unclear or this is your first time, **we recommend installing oh-my-opencode**.
-
-- Follow the oh-my-opencode documentation as-is.
-- Your goal is simply: the command below must work in Terminal.
-
-```bash
-opencode --version
-```
-
-oh-my-opencode (reference):
-
-- https://github.com/code-yeongyu/oh-my-opencode
-
-## 5) Create a Telegram bot (BotFather)
-
-1) In Telegram, open `@BotFather`.
-2) Run `/newbot`.
-3) Enter the bot display name.
-4) Enter a username (it must end with `bot`).
-5) Copy the **HTTP API token** BotFather returns.
-
----
-
-## 6) Configure OMO Talk (required)
-
-Click the OMO Talk menubar icon → open **Settings**.
-
-### 6-1) Telegram section
-
-1) **Bot Token**
-   - Paste the BotFather token and save.
-
-2) **Allowed User ID**
-   - OMO Talk assumes personal use.
-   - If Allowed User ID is set, it accepts **only messages from that Telegram `user_id`**.
-
-### 6-2) If you don't know your Allowed User ID (pairing)
-
-1) Save Settings with Allowed User ID left empty
-2) Send any message to your bot in Telegram (e.g. `/start`)
-3) OMO Talk replies with the detected `user_id`
-4) Put that number into Settings → Allowed User ID and save
-
-### 6-3) Paths section (Base Path)
-
-Base Path is the root for resolving relative paths.
-
-- Example: if Base Path is `~/Desktop` and you enter `project`, it resolves to `~/Desktop/project`
-
----
-
-## 7) Create a session from the app UI (easiest)
-
-Menubar OMO Talk → **Add Session**
-
-1) Enter Path
-   - Absolute path: `/Users/you/...`
-   - Home path: `~/...`
-   - Relative path: resolved under Base Path (e.g. `project`)
-2) Alias (optional)
-3) Create
-
-Then OMO Talk will:
-
-- open iTerm2,
-- attach to the tmux session,
-- and run `opencode` after a short delay.
-
----
-
-## 8) Use from Telegram
-
-### 8-1) Basic usage (explicit alias/path)
+### 4-1) Basic usage (explicit alias/path)
 
 Basic format:
 
@@ -194,7 +102,7 @@ Example:
 app ~~ summarize the project structure
 ```
 
-### 8-2) Per-chat default session (`/base`)
+### 4-2) Per-chat default session (`/base`)
 
 Telegram supports not only 1:1 chats with your bot but also inviting the bot into **group chats**.
 This lets you map chats to sessions, for example:
@@ -230,7 +138,7 @@ plan today's tasks
 /base clear
 ```
 
-### 8-3) Send to another session even when `/base` is set
+### 4-3) Send to another session even when `/base` is set
 
 Even if the chat default is `A`, you can send a single message to `B` like this:
 
@@ -240,7 +148,7 @@ B ~~ send this to session B
 
 ---
 
-## 9) Full command list
+## 5) Full command list
 
 These are also available via `/help`.
 
@@ -256,7 +164,7 @@ These are also available via `/help`.
 
 ---
 
-## 10) Permissions (important): iTerm2 Automation
+## 6) Permissions (important): iTerm2 Automation
 
 OMO Talk controls iTerm2 using Apple Events.
 
@@ -274,9 +182,9 @@ Symptoms:
 
 ---
 
-## 11) Troubleshooting
+## 7) Troubleshooting
 
-### 11-1) Telegram messages are ignored
+### 7-1) Telegram messages are ignored
 
 Possible causes:
 
@@ -292,12 +200,12 @@ Recommended fix order:
 3) Enter the returned user_id into Allowed User ID and save
 4) In group chats, test by sending a message from your own account
 
-### 11-2) opencode answers do not come back to Telegram
+### 7-2) opencode answers do not come back to Telegram
 
 - Verify opencode is actually running in that session
 - Check the Sessions list in the menubar app
 
-### 11-3) Multi-line input (terminal)
+### 7-3) Multi-line input (terminal)
 
 This applies when you are **not in Telegram**, but directly interacting with opencode in iTerm2/tmux.
 
@@ -308,7 +216,7 @@ In tmux, `Shift+Enter` may not insert a new line.
 
 ---
 
-## 12) Uninstall
+## 8) Uninstall
 
 1) Quit OMO Talk from the menubar
 2) Delete `/Applications/OMO Talk.app`
@@ -319,7 +227,7 @@ Session mapping data is stored in your user library. (Optional manual cleanup)
 
 ---
 
-## 13) Additional notes
+## 9) Additional notes
 
 - OMO Talk works without a server; it relays Telegram messages to tmux/iTerm2 on your Mac.
 - It does not collect or store your personal data or messages. (Only minimal local settings / session mapping)
@@ -334,151 +242,60 @@ OMO Talk은 **텔레그램 메시지 → tmux 세션(터미널) → opencode** �
 
 ---
 
-## 0) 준비물 체크
+## 0) 준비물 체크 (간단)
 
-아래가 모두 준비되어 있어야 정상 동작합니다.
+아래 4가지만 먼저 확인하세요.
 
 1) macOS 13 이상
 2) iTerm2 설치
-3) tmux 설치
-4) `opencode` 설치 및 PATH 설정, oh-my-opencode 플러그인 설치
-5) 텔레그램 봇 토큰(= BotFather에서 발급)
+3) tmux 설치 (`tmux -V` 동작)
+4) opencode + oh-my-opencode 설치 (`opencode --version` 동작)
 
 ---
 
 ## 1) 설치(DMG)
 
-1) 전달받은 `OMO Talk.dmg` 파일을 더블클릭해서 엽니다.
-2) 열리는 창에서 `OMO Talk.app`을 `Applications`로 드래그 앤 드롭합니다.
+1) `OMO Talk.dmg`를 더블클릭합니다.
+2) `OMO Talk.app`을 `Applications`로 드래그합니다.
 3) `/Applications/OMO Talk.app`을 실행합니다.
 
-### 1-1) 설치된 버전 확인 방법
+버전 확인:
 
-1) Finder에서 `/Applications` 폴더로 이동
-2) `OMO Talk.app` 선택
-3) `Command + I` (정보 가져오기)
-4) "버전" 항목에서 현재 버전을 확인
+- Finder -> `/Applications` -> `OMO Talk.app` 선택 -> `Command + I` -> 버전 확인
 
 ---
 
-## 2) tmux 설치
+## 2) 빠른 시작 (앱 내부와 동일)
 
-### 2-1) Homebrew가 있다면(권장)
+1) opencode와 oh-my-opencode를 설치합니다.
+2) tmux를 설치합니다.
+3) 텔레그램에서 `@BotFather`를 찾습니다.
+4) `/newbot`으로 새 봇을 만들고 토큰을 복사합니다.
+5) OMO Talk 설정에서 **Bot Token**을 붙여넣습니다.
+6) **저장(Save)** 버튼을 누릅니다.
+7) 메인 패널에서 **봇 시작(Start Bot)** 버튼을 누릅니다.
+8) 텔레그램에서 봇에게 아무 메시지나 보냅니다.
+9) 답장으로 받은 `user_id`를 **Allowed User ID**에 입력하고 다시 저장합니다.
+10) **세션 추가(Add Session)**를 누르거나 텔레그램에서 `/new <별명> <경로>`를 입력합니다.
 
-```bash
-brew install tmux
-```
+예시:
 
-### 2-2) 설치 확인
-
-```bash
-tmux -V
-```
-
----
-
-## 3) iTerm2 설치
-
-아래 둘 중 하나로 설치합니다.
-
-- iTerm2 공식 사이트에서 다운로드 후 설치
-- Homebrew 사용:
-
-```bash
-brew install --cask iterm2
-```
+- 프로젝트가 `/Users/user/Desktop/ppap`이고 Base Path가 `/Users/user/Desktop`이면 `/new ppap /ppap` 사용 가능
 
 ---
 
-## 4) opencode 설치/확인
+## 3) 경로 입력 규칙 (`/new` / 세션 추가)
 
-OMO Talk은 tmux 세션 안에서 `opencode`를 실행합니다.
-
-1) Terminal에서 아래가 동작하는지 확인합니다.
-
-```bash
-opencode --version
-```
-
-2) 만약 `command not found`면, opencode를 설치하고 PATH에 잡히게 해야 합니다.
+- 전체 절대경로: `/Users/you/...`
+- 홈 경로: `~/...`
+- 상대경로: Base Path 기준 (예: `project`)
+- 편의 보정: Base Path가 `/Users/you/Desktop`일 때 `/new app /app` 입력 시 `/Users/you/Desktop/app`로 해석 가능
 
 ---
 
-### 4-1) oh-my-opencode(OMO) 설치 안내(권장)
+## 4) 텔레그램에서 사용하기
 
-OMO Talk은 현재 **oh-my-opencode 환경에서만 충분히 테스트**되었습니다.
-따라서 `opencode` 설치가 애매하거나 처음 세팅하는 경우에는 **oh-my-opencode 설치를 권장**합니다.
-
-- 설치/세팅 방법은 oh-my-opencode 문서를 그대로 따라가면 됩니다.
-- 목표는 단 하나: 터미널에서 아래 명령이 정상 동작하는 상태
-
-```bash
-opencode --version
-```
-
-oh-my-opencode (참고):
-
-- https://github.com/code-yeongyu/oh-my-opencode
-
-## 5) 텔레그램 봇 만들기(BotFather)
-
-1) Telegram에서 `@BotFather`를 검색해서 채팅을 엽니다.
-2) `/newbot` 실행
-3) 봇 이름(표시 이름) 입력
-4) username 입력(끝이 `bot`으로 끝나야 함)
-5) BotFather가 발급해준 **HTTP API token**을 복사해둡니다.
-
----
-
-## 6) OMO Talk 설정하기(필수)
-
-메뉴바(상단 바)에서 OMO Talk 아이콘을 클릭 → **Settings**를 엽니다.
-
-### 6-1) Telegram 섹션
-
-1) **Bot Token**
-   - BotFather에서 받은 token을 붙여넣고 저장합니다.
-
-2) **Allowed User ID**
-   - OMO Talk은 개인용 사용을 기본으로 가정하고, Allowed User ID가 설정되면 **그 user_id의 메시지만 처리**합니다.
-
-### 6-2) Allowed User ID를 모를 때(페어링 방법)
-
-1) Settings에서 Allowed User ID를 비워둔 상태로 저장
-2) 텔레그램에서 내 봇에게 아무 메시지나 보냄(예: `/start`)
-3) OMO Talk이 답장으로 **감지한 user_id**를 알려줌
-4) 그 숫자를 Settings → Allowed User ID에 입력 후 저장
-
-### 6-3) Paths 섹션 (Base Path)
-
-Base Path는 “상대경로”의 기준 폴더입니다.
-
-- 예: Base Path가 `~/Desktop`이고 `project`를 입력하면 `~/Desktop/project`로 해석
-
----
-
-## 7) 앱 UI로 세션 만들기(가장 쉬움)
-
-메뉴바 OMO Talk → **Add Session(세션 추가)**
-
-1) Path 입력
-   - 절대경로: `/Users/you/...`
-   - 홈 경로: `~/...`
-   - 상대경로: Base Path 아래에서 해석(예: `project`)
-2) Alias(별명) (선택)
-3) Create
-
-그러면 OMO Talk이:
-
-- iTerm2를 열고
-- tmux 세션에 attach 한 뒤
-- 약간의 딜레이 후 `opencode`를 실행합니다.
-
----
-
-## 8) 텔레그램에서 사용하기
-
-### 8-1) 기본 사용(별명/경로 지정)
+### 4-1) 기본 사용(별명/경로 지정)
 
 세션에 프롬프트를 보내는 기본 형식:
 
@@ -492,7 +309,7 @@ Base Path는 “상대경로”의 기준 폴더입니다.
 app ~~ 지금 프로젝트 구조를 요약해줘
 ```
 
-### 8-2) 채팅방별 기본 세션 설정(/base)
+### 4-2) 채팅방별 기본 세션 설정(/base)
 
 텔레그램은 **봇과의 개인 채팅**뿐 아니라, **그룹 채팅방**에서도 봇을 초대해 사용할 수 있습니다.
 이걸 이용하면 예를 들어:
@@ -529,7 +346,7 @@ app ~~ 지금 프로젝트 구조를 요약해줘
 /base clear
 ```
 
-### 8-3) /base가 설정돼 있어도 다른 세션으로 보내기
+### 4-3) /base가 설정돼 있어도 다른 세션으로 보내기
 
 채팅방 기본 세션이 `A`로 되어 있어도, 아래처럼 보내면 그 메시지만 `B` 세션으로 들어갑니다.
 
@@ -539,7 +356,7 @@ B ~~ 이건 B 세션으로 보내줘
 
 ---
 
-## 9) 텔레그램 명령어 전체
+## 5) 텔레그램 명령어 전체
 
 아래는 `/help`에서 확인할 수 있는 명령어들입니다.
 
@@ -555,7 +372,7 @@ B ~~ 이건 B 세션으로 보내줘
 
 ---
 
-## 10) 권한(중요): iTerm2 Automation 허용
+## 6) 권한(중요): iTerm2 Automation 허용
 
 OMO Talk은 iTerm2를 Apple Events로 제어합니다.
 
@@ -573,9 +390,9 @@ OMO Talk은 iTerm2를 Apple Events로 제어합니다.
 
 ---
 
-## 11) 문제 해결(자주 발생)
+## 7) 문제 해결(자주 발생)
 
-### 11-1) 텔레그램에서 메시지를 보냈는데 무시됨
+### 7-1) 텔레그램에서 메시지를 보냈는데 무시됨
 
 가능한 원인들:
 
@@ -591,12 +408,12 @@ OMO Talk은 iTerm2를 Apple Events로 제어합니다.
 3) OMO Talk이 답장해주는 user_id를 Allowed User ID에 다시 입력 후 저장
 4) 그룹방을 쓰는 경우, "내가 직접" 메시지를 보내서 동작 확인
 
-### 11-2) opencode 답변이 텔레그램으로 안 옴
+### 7-2) opencode 답변이 텔레그램으로 안 옴
 
 - 해당 세션에서 opencode가 실제로 실행 중인지 확인
 - 메뉴바 앱에서 Sessions 목록이 보이는지 확인
 
-### 11-3) 멀티라인 입력(터미널에서)
+### 7-3) 멀티라인 입력(터미널에서)
 
 이 항목은 **텔레그램이 아니라, PC에서 iTerm2/tmux 안의 opencode 화면을 직접 조작할 때**에 해당합니다.
 
@@ -607,7 +424,7 @@ tmux 안에서는 `Shift+Enter`가 줄바꿈으로 안 먹을 수 있습니다.
 
 ---
 
-## 12) 제거(언인스톨)
+## 8) 제거(언인스톨)
 
 1) 메뉴바에서 OMO Talk 종료
 2) `/Applications/OMO Talk.app` 삭제
@@ -618,7 +435,7 @@ tmux 안에서는 `Shift+Enter`가 줄바꿈으로 안 먹을 수 있습니다.
 
 ---
 
-## 13) 추가 안내
+## 9) 추가 안내
 
 - OMO Talk은 서버 없이 동작하며, 텔레그램 메시지를 사용자의 Mac에서 tmux/iTerm2로 전달하는 방식입니다.
 - 개인정보/메시지를 별도로 수집하거나 저장하지 않습니다. (설정/세션 매핑 정도만 로컬에 저장)
